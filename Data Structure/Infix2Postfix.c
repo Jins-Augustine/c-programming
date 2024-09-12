@@ -1,3 +1,17 @@
+/*
+Description: This C program converts an infix expression to postfix notation using a stack data structure.
+Author: [Jins Augustine]
+Date: [12/09/2024]
+License: [ MIT License]
+Dependencies: None
+Usage: Compile and run the program. Enter an infix expression when prompted, and the program will output the corresponding postfix expression.
+*/
+
+
+
+
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<ctype.h>
