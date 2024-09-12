@@ -36,11 +36,6 @@ int priority(char x)
 
 	
 
-
-
-
-
-
 void main()
 {
 	char exp[100],x;
