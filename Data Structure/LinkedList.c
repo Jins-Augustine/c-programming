@@ -4,141 +4,228 @@ struct node
 {
     int data;
     struct node* link;
-
-}*head;
+}*head=NULL,*temp,*ptr,*ptr1;
 void display()
 {
-    struct Node* ptr = header;
-    // int count = 1;
-    if(header == NULL)
-    {
-        printf("\nEmpty!\n");
-        exit(1);
-    }
+    if(head==NULL)
+        printf("List is empty\n");
     else
     {
-        printf("\nElements are:\n");
-        while(ptr != NULL)
+        ptr=head;
+        while(ptr!=NULL)
         {
-            // printf("\nData at node %d is %d", count, ptr->data);
-            printf("%d\t", ptr->data);
-            ptr = ptr->link;
-            // count++;
-        }
-        printf("\nThere are %d elements.\n", getSize());
-    }
-}
-
-void insertion_at_begining(int el)
-{
-    struct node* temp=((struct node*)malloc(sizeof(struct node)));
-    if(temp=NULL)
-    {
-        printf("Not enough space\n");
-        exit(1);
-    }
-    else
-    {
-        temp->data=el;
-        temp->link=head;
-        head=temp;
-        display();
-    }
-}
-void insertion_at_end(int el)
-{
-    if(head=NULL)
-    {
-        insertion_at_begining(el);
-    }
-    else
-    {
-        struct node* temp=((struct node*)malloc(sizeof(struct node)));
-        if(new_ptr=NULL)
-        {
-            printf("Not enough space\n");
-            exit(1);
-
-        }
-        temp->data=el;
-        temp->link=NULL;
-        struct node* temp=head;
-        while(ptr->link!=NULL)
-        {
+            printf("%d\t",ptr->data);
             ptr=ptr->link;
         }
-        ptr->link=temp;
-        display();
+        printf("\n");
     }
 }
-void insertion_at_any_point(int el,int pos)
+int insertion_at_beginning(int data)
 {
-    if(pos > getsize() && pos!=getsize()+1)
+    temp=((struct node*)malloc(sizeof(struct node)));
+    if(temp==NULL)
     {
-        printf("invalid position\n");
-        return;
+        printf("No memory available\n");
+        return 0;
     }
-    struct node* temp=((struct node*)malloc(sizeof(struct node)));
-    temp->data=el;
-    temp->link=NULL;
-    if(pos==1)
+    else
     {
+        temp->data=data;
         temp->link=head;
-        head=temp;
-        display();
-        return;
+        head=temp; 
+        return 1;
     }
-    printf("enter the position of the node(value of data in left: )");
-    scanf("%d",&key)
-    struct node* ptr=head;
-    while(ptr!=NULL && ptr->data!=key)
-    {
-        ptr=ptr->link;
-        i++;
-    }
-    temp->link=ptr->link;
-    ptr->link=temp;
-    display();
-
-
-
 }
+int insertion_at_end(int data)
+{
+    if(head==NULL)
+        return insertion_at_beginning(data);
+    else
+    {
+        temp=((struct node*)malloc(sizeof(struct node)));
+        if(temp==NULL)
+        {
+            printf("No memory available\n");
+            return 0;
+        }
+        else{
+            ptr=head;
+            while(ptr->link!=NULL)
+                ptr=ptr->link;
+            temp->data=data;
+            ptr->link=temp;
+            temp->link=NULL;
+            return 1;
 
+        }
+    }
+}
+int insertion_at_any_point(int data,int key)
+{
+    if(head==NULL)
+        return insertion_at_beginning(data);
+    else{
+        temp=((struct node*)malloc(sizeof(struct node)));
+        if(temp==NULL)
+        {
+            printf("No memory available\n");
+            return 0;
+        }
+        else{
+            ptr=head;
+            while(ptr->data!=key && ptr->link!=NULL)
+            {
+                ptr=ptr->link;
+            }
+            temp->data=data;
+            temp->link=ptr->link;
+            ptr->link=temp;
+            return 1;
+        }
+    }
+}
+int deletion_at_beginning()
+{   int del;
+    if(head==NULL)
+    {
+        printf("List is empty\n");
+        return 0;
+    }
+    else
+    {
+        del=head->data;
+        printf("%d deleted\n",head->data);
+        ptr=head;
+        head=ptr->link;
+        free(ptr);
+        return del;
+    }
+}
+int deletion_at_end()
+{
+    int del;
+    if(head==NULL)
+    {
+        printf("List is empty\n");
+        return 0;
+    }
+    else
+    {
+        ptr=head;
+        ptr1=ptr->link;
+        while(ptr1->link!=NULL)
+        {   ptr=ptr->link;
+            ptr1=ptr1->link;
+        }
+        del=ptr1->data;
+        free(ptr1);
+        ptr->link=NULL;
+        return del;
+    }     
+}
+int deletion_at_any_point(int key)
+{
+    int del;
+    if(head==NULL)
+    {
+        printf("List is empty\n");
+        return 0;
+    }
+    if(head->data==key)
+    {
+        del=deletion_at_beginning();
+        return del;
+    }
+    else
+    {
+        ptr=head;
+        ptr1=ptr->link;
+        while(ptr1!=NULL && ptr1->data!=key)
+        {
+            ptr=ptr->link;
+            ptr1=ptr1->link;
+        }
+        if(ptr1==NULL)
+        {
+            printf("%d not found\n",key);
+            return 0;
+        }
+        else{
+        del=ptr1->data;
+        ptr->link=ptr1->link;
+        free(ptr1);
+        return del;
+        }
+
+    }
+}
 int main()
 {
-    char choice, cont;
-    int el, pos, data;
+    int ch,data,key,del;
     do{
-        printf("\n1.Insert at front\n2.Insert at rear\n3.Insert at any position\n4.Display\nEnter your option: ");
-        scanf("%c", &choice);
-        switch(choice)
+        printf("\n----LINKED LIST----\n");
+        printf("1.Insertion at beginning\n2.Insertion at end\n3.Insertion at any point\n4.Deletion at beginning\n5.Deletion at end\n6.Deletion at any point\n7.Display\n8.Exit\n");
+        printf("Enter your choice\n");
+        scanf("%d",&ch);
+        switch(ch)
         {
-            case '1':
-                printf("\nElement to be inserted: ");
-                scanf("%d", &el);
-                insertAtFront(el);
+            case 1:printf("Enter the data\n");
+                scanf("%d",&data);
+                if(insertion_at_beginning(data)==0)
+                {
+                    break;
+                }
+                else
+                {
+                    printf("%d Inserted\n",data);
+                }
                 break;
-            case '2':
-                printf("\nElement to be inserted: ");
-                scanf("%d", &el);
-                insertAtRear(el);
+            case 2:printf("Enter the data\n");
+                scanf("%d",&data);
+                if(insertion_at_end(data)==0)
+                {
+                    break;
+                }
+                else
+                {
+                    printf("%d Inserted\n",data);
+                }
                 break;
-            case '3':
-                printf("\nElement to be inserted: ");
-                scanf("%d", &el);
-                printf("\nPosition to be inserted: ");
-                scanf("%d", &pos);
-                insertAtAny(el, pos);
+            case 3:printf("Enter the data\n");
+                scanf("%d",&data);
+                printf("Enter the item after which data is to be inserted\n");
+                scanf("%d",&key);
+                if(insertion_at_any_point(data,key)==0)
+                    break;
+                else
+                    printf("%d Inserted\n",data);
                 break;
-            
-            case '4':
-                display();
+            case 4:del=deletion_at_beginning();
+                if(del==0)
+                    break;
+                else
+                    printf("%d deleted\n",del);
                 break;
-            default:
-                printf("\nInvalid option!");
+            case 5:del=deletion_at_end();
+                if(del==0)
+                    break;
+                else
+                    printf("%d deleted\n",del);
+                break;
+            case 6:printf("Enter the item after which data is to be deleted\n");
+                scanf("%d",&key);
+                del=deletion_at_any_point(key);
+                if(del==0)
+                    break;
+                else
+                    printf("%d deleted\n",del);
+                break;
+            case 7:display();
+                break;
+            case 8:exit(0);
+            default:printf("invalid choice\n");
         }
-        printf("\nWant to continue? ");
-        scanf("%c", &cont);
-    }while(1);
+    }while(ch!=8);
     return 0;
 }
+
